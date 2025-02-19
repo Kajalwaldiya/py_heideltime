@@ -59,8 +59,18 @@ def py_heideltime(text, language='English', date_granularity='full', document_ty
         new_text = ''.join(new_text_list)
         tagged_text = ''.join(tagged_text_list)
         ExecTimeDictionary={'heideltime_processing': heideltime_processing_time-sum(py_heideltime_text_normalization), 'py_heideltime_text_normalization': sum(py_heideltime_text_normalization)}
+
+        def retry_rmtree(directory, retries=3, delay=2):
+            for i in range(retries):
+                try:
+                    shutil.rmtree(directory)
+                    break
+                except OSError as e:
+                    print(f"Retry {i + 1}/{retries} failed: {e}")
+                    time.sleep(delay)
+
         if os.path.exists(directory_name):
-            shutil.rmtree(directory_name) #remove folder and files that were processed by heideltime
+            retry_rmtree(directory_name) #remove folder and files that were processed by heideltime
         os.remove('config.props')   #remove config.props files
         return [dates_results, new_text, tagged_text, ExecTimeDictionary]
     except Exception as e:
