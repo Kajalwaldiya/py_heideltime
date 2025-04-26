@@ -109,7 +109,7 @@ def exec_java_heideltime(filename, path, language, document_type, document_creat
         extractor_start_time = time.time()
         cmd_jar_path = os.path.join(path, 'Heideltime', 'de.unihd.dbs.heideltime.standalone.jar' )
         if document_creation_time == 'yyyy-mm-dd':
-            java_command = 'java -jar ' + cmd_jar_path + document_type + ' -l ' + language + ' ' + filename
+            java_command = 'java -jar ' + cmd_jar_path + ' ' + document_type + ' -l ' + language + ' ' + filename
         else:
             java_command = 'java -jar ' + cmd_jar_path + ' -dct ' + \
                            document_creation_time + ' -t ' + document_type + ' -l ' + language + ' ' + filename
